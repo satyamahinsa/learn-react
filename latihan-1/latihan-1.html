@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta text="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan React</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const container = document.getElementById("root");
+        const root = ReactDOM.createRoot(container);
+
+        function Header({title}) {
+            return(<h1>{title}</h1>)
+        }
+
+        function HandleCounter({text, onClick, counter}) {
+            const disabled = (text !== "Reset!") ? ((counter > 9 || counter < 0) ? true : false) : ((counter > 9 || counter < 0) ? false : true)
+            const myStyle = (text !== "Reset!") ? {} : { margin: 20, display: "block"}
+
+            return(
+                <button onClick={onClick} disabled={disabled} style={myStyle}>{text}</button>
+            )
+        }
+
+        function MyCounter({counter}) {
+            if(counter > 9 || counter < 0) {
+                counter = "Done!"
+            }
+
+            return (
+                <span style={{ margin: 20 }}>{counter}</span>
+            )
+        }
+
+        function ComplexCounter() {
+            const [counter, setCounter] = React.useState(0)
+
+            const handleIncrement = () => setCounter(counter + 1)
+            const handleDecrement = () => setCounter(counter - 1)
+            const handleReset = () => setCounter(0)
+
+            return(
+                <>
+                    <HandleCounter text={"-"} onClick={handleDecrement} counter={counter}/>
+                    <MyCounter counter={counter}/>
+                    <HandleCounter text={"+"} onClick={handleIncrement} counter={counter}/>
+                    <HandleCounter text={"Reset!"} onClick={handleReset} counter={counter}/>
+                </>
+            );
+        }
+
+        root.render(
+            <>
+                <Header title="Complex Counter" />
+                <ComplexCounter />
+            </>
+        );
+    </script>
+</body>
+</html>
